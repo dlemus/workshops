@@ -1,0 +1,104 @@
+    # CREATE MACHINE CREDENTIAL 2.2
+    - name: ADD CREDENTIAL INTO TOWER
+      tower_credential:
+        username: "{{ username }}"
+        password: "{{ admin_password }}"
+        become_method: sudo
+        name: "Workshop Credential"
+        kind: ssh
+        organization: Default
+        tower_username: admin
+        tower_password: "{{ admin_password }}"
+        tower_host: "{{ ansible_host }}"
+        tower_verify_ssl: no
+
+    # CREATE INVENTORY 2.2
+    - name: CREATE INVENTORY
+      tower_inventory:
+        name: "Workshop Inventory"
+        organization: Default
+        tower_username: admin
+        tower_password: "{{ admin_password }}"
+        tower_host: "{{ ansible_host }}"
+        tower_verify_ssl: no
+
+    # IMPORT INVENTORY 2.2
+    - name: IMPORT INVENTORY
+      shell: 'tower-manage inventory_import --source=/home/{{ username }}/lab_inventory/hosts --inventory-name="Workshop Inventory" --group-filter="web"'
+
+    # ADD PROJECT 2.3
+    - name: ADD Ansible Workshop Examples REPO INTO TOWER
+      tower_project:
+        name: "Ansible Workshop Examples"
+        organization: Default
+        scm_type: git
+        scm_url: "https://github.com/ansible/workshop-examples"
+        scm_clean: true
+        scm_delete_on_update: true
+        scm_update_on_launch: true
+        tower_username: admin
+        tower_password: "{{ admin_password }}"
+        tower_host: "{{ ansible_host }}"
+        tower_verify_ssl: no
+
+    # CREATE INVENTORY 2.3
+    - name: CREATE INVENTORY
+      tower_inventory:
+        name: "Webserver Inventory"
+        organization: Default
+        tower_username: admin
+        tower_password: "{{ admin_password }}"
+        tower_host: "{{ ansible_host }}"
+        tower_verify_ssl: no
+
+    # IMPORT INVENTORY 2.3
+    - name: IMPORT INVENTORY
+      shell: 'tower-manage inventory_import --source=/home/{{ username }}/lab_inventory/hosts --inventory-name="Webserver Inventory" --group-filter="web"'
+
+    # CREATE INSTALL APACHE JOB 2.3
+    - name: CREATE INSTALL APACHE JOB IN TOWER
+      tower_job_template:
+        name: "Install Apache"
+        job_type: "run"
+        inventory: "Workshop Inventory"
+        project: "Ansible Workshop Examples"
+        playbook: rhel/apache/apache_install.yml
+        credential: "Workshop Credential"
+        become_enabled: true
+        tower_username: admin
+        tower_password: "{{ admin_password }}"
+        tower_host: "{{ ansible_host }}"
+        tower_verify_ssl: no
+
+    # CREATE INSTALL APACHE ASK JOB 2.3
+    - name: CREATE INSTALL APACHE ASK JOB IN TOWER
+      tower_job_template:
+        name: "Install Apache Ask"
+        job_type: "run"
+        inventory: "Workshop Inventory"
+        project: "Ansible Workshop Examples"
+        playbook: rhel/apache/apache_install.yml
+        credential: "Workshop Credential"
+        become_enabled: true
+        ask_inventory: true
+        tower_username: admin
+        tower_password: "{{ admin_password }}"
+        tower_host: "{{ ansible_host }}"
+        tower_verify_ssl: no
+
+    # CREATE INDEX.HTML SURVEY JOB 2.4
+    - name: CREATE INDEX.HTML JOB IN TOWER
+      tower_job_template:
+        name: "Create Index.html"
+        job_type: "run"
+        inventory: "Webserver Inventory"
+        project: "Ansible Workshop Examples"
+        playbook: rhel/apache/apache_role_install.yml
+        credential: "Workshop Credential"
+        become_enabled: true
+        survey_enabled: true
+        survey_spec: "{{ lookup('template', 'survey.json') }}"
+        tower_username: admin
+        tower_password: "{{ admin_password }}"
+        tower_host: "{{ ansible_host }}"
+        tower_verify_ssl: no

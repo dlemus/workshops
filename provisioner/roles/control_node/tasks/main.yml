@@ -48,6 +48,10 @@
   include_tasks: "rhel.yml"
   when: workshop_type == 'rhel'
 
+- name: RHEL mode and copy rhel assets - copy to control node
+  include_tasks: "copy_rhel_assets.yml"
+  when: workshop_type == 'rhel' and copy_rhel_assets|bool == true
+
 - name: check to see if ansible tower is already up and running
   uri:
     url: https://localhost/api/v2/ping/
@@ -93,6 +97,16 @@
     validate_certs: False
     force_basic_auth: yes
   when:
+    - autolicense is defined
+    - autolicense|bool
+
+- name: RHEL Mode - Create tower assets
+  include_tasks: "create_rhel_tower_assets.yml"
+  when: 
+    - workshop_type == 'rhel'
+    - copy_rhel_assets|bool == true
+    - towerinstall is defined
+    - towerinstall|bool
     - autolicense is defined
     - autolicense|bool
 

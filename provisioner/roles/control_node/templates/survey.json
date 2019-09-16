@@ -1,0 +1,22 @@
+{
+  "name": "Survey",
+  "description": "Prompt for survey",
+  "spec": [
+    {
+      "type": "text",
+      "question_name": "First Line",
+      "question_description": "First Line",
+      "variable": "first_line",
+      "required": true,
+      "default": ""
+    },
+    {
+      "type": "text",
+      "question_name": "Second Line",
+      "question_description": "Second Line",
+      "variable": "second_line",
+      "required": true,
+      "default": ""
+    }
+  ]
+}

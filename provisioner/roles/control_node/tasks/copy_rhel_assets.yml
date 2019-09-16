@@ -1,0 +1,6 @@
+- name: Put student inventory in proper spot
+  copy:
+    src: ansible-files
+    dest: /home/{{ username }}
+    owner: "{{ username }}"
+    group: "{{ username }}"
