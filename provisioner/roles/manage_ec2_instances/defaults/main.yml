@@ -60,8 +60,8 @@ ec2_info:
     username: admin
   windows_ws:
     owners: 679593333241
-    filter: 'Windows_Server-2016-English-Full-Base*'
-    size: t3.medium
+    filter: 'Windows_Server-2016-English-Full-Base-2019.08.16'
+    size: m5.xlarge
     ami: "{{ windows_ws_ami| default(omit) }}"
     username: Administrator
   # Look for owner 309956199498 to find official Red Hat AMIs
@@ -81,6 +81,7 @@ ec2_info:
     architecture: x86_64
     filter: 'RHEL-7.6_HVM-20190515-x86_64-0-Access2-GP2'
     username: ec2-user
+    python_interpreter: '/usr/bin/python'
   f5node:
     owners: 679593333241
     size: t2.large
@@ -97,6 +98,7 @@ ec2_info:
     architecture: x86_64
     filter: 'RHEL-7.6_HVM-20190515-x86_64-0-Access2-GP2'
     username: ec2-user
+    python_interpreter: '/usr/bin/python'
   netapp:
     owners: 679593333241
     size: t2.medium
@@ -113,3 +115,4 @@ ec2_info:
     architecture: x86_64
     filter: 'AnsibleSecurity-QRadarCE*'
     username: ec2-user
+    python_interpreter: '/usr/bin/python'

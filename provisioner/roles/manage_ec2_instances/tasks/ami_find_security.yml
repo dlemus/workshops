@@ -4,7 +4,7 @@
   block:
   - name: find ami for splunk
     ec2_ami_facts:
-      region: "us-east-1" # I don't know why but that seems to be the only place it's available
+      region: "{{ ec2_region }}" # I don't know why but that seems to be the only place it's available
       owners: "{{ ec2_info['splunk_enterprise']['owners'] }}"
       filters:
         name: "{{ ec2_info['splunk_enterprise']['filter'] }}"
@@ -22,7 +22,7 @@
   block:
   - name: find ami for qradar
     ec2_ami_facts:
-      region: "us-east-1" # I don't know why but that seems to be the only place it's available
+      region: "{{ ec2_region }}" # I don't know why but that seems to be the only place it's available
       owners: "{{ ec2_info['qradar']['owners'] }}"
       filters:
         name: "{{ ec2_info['qradar']['filter'] }}"
@@ -49,6 +49,22 @@
     set_fact:
       snort_ami: >
         {{ snort_amis['images'] | selectattr('name', 'defined') | sort(attribute='creation_date') | last }}
+
+- name: BLOCK FOR ATTACKER AMI
+  block:
+  - name: find ami for attack simulation node
+    ec2_ami_facts:
+      region: "{{ ec2_region }}"
+      owners: "{{ ec2_info['rhel7']['owners'] }}"
+      filters:
+        name: "{{ ec2_info['rhel7']['filter'] }}"
+        architecture: "{{ ec2_info['rhel7']['architecture'] }}"
+    register: attacker_amis
+
+  - name: save ami for attack simulation node
+    set_fact:
+      attacker_ami: >
+        {{ attacker_amis['images'] | selectattr('name', 'defined') | sort(attribute='creation_date') | last }}
 
 - name: BLOCK FOR CHECK POINT AMI
   block:
