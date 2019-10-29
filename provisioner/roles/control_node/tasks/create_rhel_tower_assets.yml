@@ -1,16 +1,4 @@
-    # CREATE MACHINE CREDENTIAL 2.2
-    - name: ADD CREDENTIAL INTO TOWER
-      tower_credential:
-        username: "{{ username }}"
-        password: "{{ admin_password }}"
-        become_method: sudo
-        name: "Workshop Credential"
-        kind: ssh
-        organization: Default
-        tower_username: admin
-        tower_password: "{{ admin_password }}"
-        tower_host: "{{ ansible_host }}"
-        tower_verify_ssl: no
+    # Get inventory pulled in first, as many things depend on it
 
     # CREATE INVENTORY 2.2
     - name: CREATE INVENTORY
@@ -26,21 +14,6 @@
     - name: IMPORT INVENTORY
       shell: 'tower-manage inventory_import --source=/home/{{ username }}/lab_inventory/hosts --inventory-name="Workshop Inventory" --group-filter="web"'
 
-    # ADD PROJECT 2.3
-    - name: ADD Ansible Workshop Examples REPO INTO TOWER
-      tower_project:
-        name: "Ansible Workshop Examples"
-        organization: Default
-        scm_type: git
-        scm_url: "https://github.com/ansible/workshop-examples"
-        scm_clean: true
-        scm_delete_on_update: true
-        scm_update_on_launch: true
-        tower_username: admin
-        tower_password: "{{ admin_password }}"
-        tower_host: "{{ ansible_host }}"
-        tower_verify_ssl: no
-
     # CREATE INVENTORY 2.3
     - name: CREATE INVENTORY
       tower_inventory:
@@ -54,6 +27,208 @@
     # IMPORT INVENTORY 2.3
     - name: IMPORT INVENTORY
       shell: 'tower-manage inventory_import --source=/home/{{ username }}/lab_inventory/hosts --inventory-name="Webserver Inventory" --group-filter="web"'
+
+    # CREATE MACHINE CREDENTIAL 2.2
+    - name: ADD CREDENTIAL INTO TOWER
+      tower_credential:
+        username: "{{ username }}"
+        password: "{{ admin_password }}"
+        become_method: sudo
+        name: "Workshop Credential"
+        kind: ssh
+        organization: Default
+        tower_username: admin
+        tower_password: "{{ admin_password }}"
+        tower_host: "{{ ansible_host }}"
+        tower_verify_ssl: no
+
+    # ADD PROJECT 1.X (add project for students, they will need to change this)
+    - name: ADD Ansible Workshop Excercises 1 REPO INTO TOWER
+      tower_project:
+        name: "Ansible Workshop Exercises 1"
+        organization: Default
+        scm_type: git
+        scm_url: "{{ rhel_git_hub_solutions_url }}"
+        scm_clean: true
+        scm_delete_on_update: true
+        scm_update_on_launch: true
+        tower_username: admin
+        tower_password: "{{ admin_password }}"
+        tower_host: "{{ ansible_host }}"
+        tower_verify_ssl: no
+
+    - name: sleep for 10 seconds for project to update and continue with play
+      wait_for:
+        timeout: 10
+
+    # CREATE Exercise 1.3 JOB 1.3
+    - name: CREATE Exercise 1.3 JOB IN TOWER
+      tower_job_template:
+        name: "Exercise 1.3 - First Playbook"
+        job_type: "run"
+        inventory: "Workshop Inventory"
+        project: "Ansible Workshop Exercises 1"
+        playbook: exercise1.3/apache.yml
+        credential: "Workshop Credential"
+        become_enabled: true
+        tower_username: admin
+        tower_password: "{{ admin_password }}"
+        tower_host: "{{ ansible_host }}"
+        tower_verify_ssl: no
+
+    # CREATE Exercise 1.4.1 JOB 1.4
+    - name: CREATE Exercise 1.4.1 JOB IN TOWER
+      tower_job_template:
+        name: "Exercise 1.4.1 - Using Variables Deploy Index"
+        job_type: "run"
+        inventory: "Workshop Inventory"
+        project: "Ansible Workshop Exercises 1"
+        playbook: exercise1.4/deploy_index_html.yml
+        credential: "Workshop Credential"
+        become_enabled: true
+        tower_username: admin
+        tower_password: "{{ admin_password }}"
+        tower_host: "{{ ansible_host }}"
+        tower_verify_ssl: no
+
+    # CREATE Exercise 1.4.2 JOB 1.4
+    - name: CREATE Exercise 1.4.2 JOB IN TOWER
+      tower_job_template:
+        name: "Exercise 1.4.2 - Using Variables Facts"
+        job_type: "run"
+        inventory: "Workshop Inventory"
+        project: "Ansible Workshop Exercises 1"
+        playbook: exercise1.4/facts.yml
+        credential: "Workshop Credential"
+        become_enabled: true
+        tower_username: admin
+        tower_password: "{{ admin_password }}"
+        tower_host: "{{ ansible_host }}"
+        tower_verify_ssl: no
+
+    # CREATE Exercise 1.5.1 JOB 1.5
+    - name: CREATE Exercise 1.5.1 JOB IN TOWER
+      tower_job_template:
+        name: "Exercise 1.5.1 - Conditionals, Handlers, Loops - FTP"
+        job_type: "run"
+        inventory: "Workshop Inventory"
+        project: "Ansible Workshop Exercises 1"
+        playbook: exercise1.5/ftpserver.yml
+        credential: "Workshop Credential"
+        become_enabled: true
+        tower_username: admin
+        tower_password: "{{ admin_password }}"
+        tower_host: "{{ ansible_host }}"
+        tower_verify_ssl: no
+
+    # CREATE Exercise 1.5.2 JOB 1.5
+    - name: CREATE Exercise 1.5.2 JOB IN TOWER
+      tower_job_template:
+        name: "Exercise 1.5.2 - Conditionals, Handlers, Loops - HTTPD Conf"
+        job_type: "run"
+        inventory: "Workshop Inventory"
+        project: "Ansible Workshop Exercises 1"
+        playbook: exercise1.5/httpd_conf.yml
+        credential: "Workshop Credential"
+        become_enabled: true
+        tower_username: admin
+        tower_password: "{{ admin_password }}"
+        tower_host: "{{ ansible_host }}"
+        tower_verify_ssl: no
+
+    # CREATE Exercise 1.5.3 JOB 1.5
+    - name: CREATE Exercise 1.5.3 JOB IN TOWER
+      tower_job_template:
+        name: "Exercise 1.5.3 - Conditionals, Handlers, Loops - HTTPD Conf 2"
+        job_type: "run"
+        inventory: "Workshop Inventory"
+        project: "Ansible Workshop Exercises 1"
+        playbook: exercise1.5/httpd_conf2.yml
+        credential: "Workshop Credential"
+        become_enabled: true
+        tower_username: admin
+        tower_password: "{{ admin_password }}"
+        tower_host: "{{ ansible_host }}"
+        tower_verify_ssl: no
+
+    # CREATE Exercise 1.5.4 JOB 1.5
+    - name: CREATE Exercise 1.5.4 JOB IN TOWER
+      tower_job_template:
+        name: "Exercise 1.5.4 - Conditionals, Handlers, Loops - Loop Users"
+        job_type: "run"
+        inventory: "Workshop Inventory"
+        project: "Ansible Workshop Exercises 1"
+        playbook: exercise1.5/loop_users.yml
+        credential: "Workshop Credential"
+        become_enabled: true
+        tower_username: admin
+        tower_password: "{{ admin_password }}"
+        tower_host: "{{ ansible_host }}"
+        tower_verify_ssl: no
+
+    # CREATE Exercise 1.5.5 JOB 1.5
+    - name: CREATE Exercise 1.5.5 JOB IN TOWER
+      tower_job_template:
+        name: "Exercise 1.5.5 - Conditionals, Handlers, Loops - Loop Users 2"
+        job_type: "run"
+        inventory: "Workshop Inventory"
+        project: "Ansible Workshop Exercises 1"
+        playbook: exercise1.5/loop_users2.yml
+        credential: "Workshop Credential"
+        become_enabled: true
+        tower_username: admin
+        tower_password: "{{ admin_password }}"
+        tower_host: "{{ ansible_host }}"
+        tower_verify_ssl: no
+
+    # CREATE Exercise 1.6 JOB 1.6
+    - name: CREATE Exercise 1.6 JOB IN TOWER
+      tower_job_template:
+        name: "Exercise 1.6 - Templates"
+        job_type: "run"
+        inventory: "Workshop Inventory"
+        project: "Ansible Workshop Exercises 1"
+        playbook: exercise1.6/motd-facts.yml
+        credential: "Workshop Credential"
+        become_enabled: true
+        tower_username: admin
+        tower_password: "{{ admin_password }}"
+        tower_host: "{{ ansible_host }}"
+        tower_verify_ssl: no
+
+    # CREATE Exercise 1.7 JOB 1.7
+    - name: CREATE Exercise 1.7 JOB IN TOWER
+      tower_job_template:
+        name: "Exercise 1.7 - Roles"
+        job_type: "run"
+        inventory: "Workshop Inventory"
+        project: "Ansible Workshop Exercises 1"
+        playbook: exercise1.7/test_apache_role.yml
+        credential: "Workshop Credential"
+        become_enabled: true
+        tower_username: admin
+        tower_password: "{{ admin_password }}"
+        tower_host: "{{ ansible_host }}"
+        tower_verify_ssl: no
+
+    # ADD PROJECT 2.3
+    - name: ADD Ansible Workshop Examples REPO INTO TOWER
+      tower_project:
+        name: "Ansible Workshop Examples"
+        organization: Default
+        scm_type: git
+        scm_url: "https://github.com/ansible/workshop-examples.git"
+        scm_clean: true
+        scm_delete_on_update: true
+        scm_update_on_launch: true
+        tower_username: admin
+        tower_password: "{{ admin_password }}"
+        tower_host: "{{ ansible_host }}"
+        tower_verify_ssl: no
+
+    - name: sleep for 10 seconds for project to update and continue with play
+      wait_for:
+        timeout: 10
 
     # CREATE INSTALL APACHE JOB 2.3
     - name: CREATE INSTALL APACHE JOB IN TOWER
@@ -98,6 +273,76 @@
         become_enabled: true
         survey_enabled: true
         survey_spec: "{{ lookup('template', 'survey.json') }}"
+        tower_username: admin
+        tower_password: "{{ admin_password }}"
+        tower_host: "{{ ansible_host }}"
+        tower_verify_ssl: no
+
+    # ADD Webops Git PROJECT 2.6
+    - name: ADD Webops Git REPO INTO TOWER
+      tower_project:
+        name: "Webops Git Repo"
+        organization: Default
+        scm_type: git
+        scm_url: "https://github.com/ansible/workshop-examples.git"
+        scm_branch: "webops"
+        scm_clean: true
+        scm_delete_on_update: true
+        scm_update_on_launch: true
+        tower_username: admin
+        tower_password: "{{ admin_password }}"
+        tower_host: "{{ ansible_host }}"
+        tower_verify_ssl: no
+  
+    - name: sleep for 10 seconds for project to update and continue with play
+      wait_for:
+        timeout: 10
+
+    # ADD Webdev Git ROJECT 2.6
+    - name: ADD Webops Git REPO INTO TOWER
+      tower_project:
+        name: "Webdev Git Repo"
+        organization: Default
+        scm_type: git
+        scm_url: "https://github.com/ansible/workshop-examples.git"
+        scm_branch: "webdev"
+        scm_clean: true
+        scm_delete_on_update: true
+        scm_update_on_launch: true
+        tower_username: admin
+        tower_password: "{{ admin_password }}"
+        tower_host: "{{ ansible_host }}"
+        tower_verify_ssl: no
+
+    - name: sleep for 10 seconds for project to update and continue with play
+      wait_for:
+        timeout: 10
+
+    # CREATE Tomcat Deploy JOB 2.6
+    - name: CREATE Tomcat Deploy JOB IN TOWER
+      tower_job_template:
+        name: "Tomcat Deploy"
+        job_type: "run"
+        inventory: "Workshop Inventory"
+        project: "Webops Git Repo"
+        playbook: rhel/webops/tomcat.yml
+        credential: "Workshop Credential"
+        become_enabled: true
+        tower_username: admin
+        tower_password: "{{ admin_password }}"
+        tower_host: "{{ ansible_host }}"
+        tower_verify_ssl: no
+
+    # CREATE Web App Deploy JOB 2.6
+    - name: CREATE Web App Deploy JOB IN TOWER
+      tower_job_template:
+        name: "Web App Deploy"
+        job_type: "run"
+        inventory: "Workshop Inventory"
+        project: "Webdev Git Repo"
+        playbook: rhel/webdev/create_jsp.yml
+        credential: "Workshop Credential"
+        become_enabled: true
         tower_username: admin
         tower_password: "{{ admin_password }}"
         tower_host: "{{ ansible_host }}"
