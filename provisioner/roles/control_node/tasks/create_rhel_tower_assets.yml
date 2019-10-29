@@ -233,7 +233,7 @@
     # CREATE INSTALL APACHE JOB 2.3
     - name: CREATE INSTALL APACHE JOB IN TOWER
       tower_job_template:
-        name: "Install Apache"
+        name: "Exercise 2.3.1 - Install Apache"
         job_type: "run"
         inventory: "Workshop Inventory"
         project: "Ansible Workshop Examples"
@@ -248,7 +248,7 @@
     # CREATE INSTALL APACHE ASK JOB 2.3
     - name: CREATE INSTALL APACHE ASK JOB IN TOWER
       tower_job_template:
-        name: "Install Apache Ask"
+        name: "Exercise 2.3.2 Install Apache Ask"
         job_type: "run"
         inventory: "Workshop Inventory"
         project: "Ansible Workshop Examples"
@@ -264,7 +264,7 @@
     # CREATE INDEX.HTML SURVEY JOB 2.4
     - name: CREATE INDEX.HTML JOB IN TOWER
       tower_job_template:
-        name: "Create Index.html"
+        name: "Exercise 2.4 - Create Index.html"
         job_type: "run"
         inventory: "Webserver Inventory"
         project: "Ansible Workshop Examples"
@@ -293,10 +293,6 @@
         tower_password: "{{ admin_password }}"
         tower_host: "{{ ansible_host }}"
         tower_verify_ssl: no
-  
-    - name: sleep for 10 seconds for project to update and continue with play
-      wait_for:
-        timeout: 10
 
     # ADD Webdev Git ROJECT 2.6
     - name: ADD Webops Git REPO INTO TOWER
@@ -314,14 +310,14 @@
         tower_host: "{{ ansible_host }}"
         tower_verify_ssl: no
 
-    - name: sleep for 10 seconds for project to update and continue with play
+    - name: sleep for 20 seconds for project to update and continue with play
       wait_for:
-        timeout: 10
+        timeout: 20
 
-    # CREATE Tomcat Deploy JOB 2.6
+    # CREATE Tomcat Deploy JOB 2.6.1
     - name: CREATE Tomcat Deploy JOB IN TOWER
       tower_job_template:
-        name: "Tomcat Deploy"
+        name: "Exercise 2.6.1 - Tomcat Deploy"
         job_type: "run"
         inventory: "Workshop Inventory"
         project: "Webops Git Repo"
@@ -333,10 +329,10 @@
         tower_host: "{{ ansible_host }}"
         tower_verify_ssl: no
 
-    # CREATE Web App Deploy JOB 2.6
+    # CREATE Web App Deploy JOB 2.6.2
     - name: CREATE Web App Deploy JOB IN TOWER
       tower_job_template:
-        name: "Web App Deploy"
+        name: "Exercise 2.6.2 - Web App Deploy"
         job_type: "run"
         inventory: "Workshop Inventory"
         project: "Webdev Git Repo"
