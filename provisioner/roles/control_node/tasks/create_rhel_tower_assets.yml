@@ -12,7 +12,7 @@
 
     # IMPORT INVENTORY 2.2
     - name: IMPORT INVENTORY
-      shell: 'tower-manage inventory_import --source=/home/{{ username }}/lab_inventory/hosts --inventory-name="Workshop Inventory" --group-filter="web,ftpserver"'
+      shell: 'tower-manage inventory_import --source=/home/{{ username }}/lab_inventory/hosts --inventory-name="Workshop Inventory" --group-filter="\b(web|ftpserver)\b"'
 
     # CREATE INVENTORY 2.3
     - name: CREATE INVENTORY
@@ -26,7 +26,7 @@
 
     # IMPORT INVENTORY 2.3
     - name: IMPORT INVENTORY
-      shell: 'tower-manage inventory_import --source=/home/{{ username }}/lab_inventory/hosts --inventory-name="Webserver Inventory" --group-filter="web,ftpserver"'
+      shell: 'tower-manage inventory_import --source=/home/{{ username }}/lab_inventory/hosts --inventory-name="Webserver Inventory" --group-filter="\b(web|ftpserver)\b"'
 
     # CREATE MACHINE CREDENTIAL 2.2
     - name: ADD CREDENTIAL INTO TOWER
