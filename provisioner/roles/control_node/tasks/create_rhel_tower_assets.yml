@@ -12,7 +12,7 @@
 
     # IMPORT INVENTORY 2.2
     - name: IMPORT INVENTORY
-      shell: 'tower-manage inventory_import --source=/home/{{ username }}/lab_inventory/hosts --inventory-name="Workshop Inventory" --group-filter="web"'
+      shell: 'tower-manage inventory_import --source=/home/{{ username }}/lab_inventory/hosts --inventory-name="Workshop Inventory" --group-filter="web,ftpserver"'
 
     # CREATE INVENTORY 2.3
     - name: CREATE INVENTORY
@@ -26,7 +26,7 @@
 
     # IMPORT INVENTORY 2.3
     - name: IMPORT INVENTORY
-      shell: 'tower-manage inventory_import --source=/home/{{ username }}/lab_inventory/hosts --inventory-name="Webserver Inventory" --group-filter="web"'
+      shell: 'tower-manage inventory_import --source=/home/{{ username }}/lab_inventory/hosts --inventory-name="Webserver Inventory" --group-filter="web,ftpserver"'
 
     # CREATE MACHINE CREDENTIAL 2.2
     - name: ADD CREDENTIAL INTO TOWER
@@ -343,3 +343,50 @@
         tower_password: "{{ admin_password }}"
         tower_host: "{{ ansible_host }}"
         tower_verify_ssl: no
+
+    # Delete demo artifacts
+    - name: Delete Demo Job Template
+      tower_job_template:
+        name: "Demo Job Template"
+        job_type: "run"
+        playbook: ""
+        project: "Demo Project"
+        state: absent
+        tower_username: admin
+        tower_password: "{{ admin_password }}"
+        tower_host: "{{ ansible_host }}"
+        tower_verify_ssl: no 
+      ignore_errors: yes
+
+    - name: Delete Demo CREDENTIAL
+      tower_credential:
+        name: "Demo Credential"
+        organization: ""
+        kind: ssh
+        state: absent
+        tower_username: admin
+        tower_password: "{{ admin_password }}"
+        tower_host: "{{ ansible_host }}"
+        tower_verify_ssl: no
+      ignore_errors: yes
+
+    - name: Delete Demo INVENTORY
+      tower_inventory:
+        name: "Demo Inventory"
+        organization: Default
+        state: absent
+        tower_username: admin
+        tower_password: "{{ admin_password }}"
+        tower_host: "{{ ansible_host }}"
+        tower_verify_ssl: no
+      ignore_errors: yes
+
+    - name: Delete Demo Project
+      tower_project:
+        name: "Demo Project"
+        state: absent
+        tower_username: admin
+        tower_password: "{{ admin_password }}"
+        tower_host: "{{ ansible_host }}"
+        tower_verify_ssl: no
+      ignore_errors: yes
