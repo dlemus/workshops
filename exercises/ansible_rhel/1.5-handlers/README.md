@@ -1,6 +1,11 @@
 # Exercise 1.5 - Conditionals, Handlers and Loops
 
-**Read this in other languages**: ![uk](../../../images/uk.png) [English](README.md),  ![japan](../../../images/japan.png) [日本語](README.ja.md).
+**Read this in other languages**: ![uk](../../../images/uk.png) [English](README.md),  ![japan](../../../images/japan.png)[日本語](README.ja.md), ![brazil](../../../images/brazil.png) [Portugues do Brasil](README.pt-br.md).
+
+* [Step 5.1 - Conditionals](#step-51---conditionals)
+* [Step 5.2 - Handlers](#step-52---handlers)
+* [Step 5.3 - Simple Loops](#step-53---simple-loops)
+* [Step 5.4 - Loops over hashes](#step-54---loops-over-hashes)
 
 ## Step 5.1 - Conditionals
 
@@ -85,7 +90,7 @@ As a an example, let’s write a Playbook that:
 First we need the file Ansible will deploy, let’s just take the one from node1. Remember to replace the IP address shown in the listing below with the IP address from your individual `node1`.
 
 ```bash
-[student<X>@ansible ansible-files]$ scp 11.22.33.44:/etc/httpd/conf/httpd.conf ~/ansible-files/.
+[student<X>@ansible ansible-files]$ scp 11.22.33.44:/etc/httpd/conf/httpd.conf ~/ansible-files/files/.
 student<X>@11.22.33.44's password:
 httpd.conf             
 ```
@@ -221,7 +226,7 @@ Check the output:
 
   - Again the task is listed once, but three changes are listed. Each loop with its content is shown.
 
-Verify that the user `prod_user` was indeed created on `node1`:
+Verify that the user `dev_user` was indeed created on `node1`:
 
 ```bash
 [student<X>@ansible ansible-files]$ ansible node1 -m command -a "id dev_user"

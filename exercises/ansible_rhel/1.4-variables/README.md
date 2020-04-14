@@ -1,6 +1,14 @@
 # Exercise 1.4 - Using Variables
 
-**Read this in other languages**: ![uk](../../../images/uk.png) [English](README.md),  ![japan](../../../images/japan.png) [日本語](README.ja.md).
+**Read this in other languages**: ![uk](../../../images/uk.png) [English](README.md),  ![japan](../../../images/japan.png)[日本語](README.ja.md), ![brazil](../../../images/brazil.png) [Portugues do Brasil](README.pt-br.md).
+
+* [Step 4.1 - Create Variable Files](#step-41---create-variable-files)
+* [Step 4.2 - Create index.html Files](#step-42---create-indexhtml-files)
+* [Step 4.3 - Create the Playbook](#step-43---create-the-playbook)
+* [Step 4.4 - Test the Result](#step-44---test-the-result)
+* [Step 4.5 - Ansible Facts](#step-45---ansible-facts)
+* [Step 4.6 - Challenge Lab: Facts](#step-46---challenge-lab-facts)
+* [Step 4.7 - Using Facts in Playbooks](#step-47---using-facts-in-playbooks)
 
 Previous exercises showed you the basics of Ansible Engine.  In the next few exercises, we are going
 to teach some more advanced Ansible skills that will add flexibility and power to your playbooks.
@@ -22,9 +30,9 @@ Variables and their values can be defined in various places: the inventory, addi
 
 The recommended practice to provide variables in the inventory is to define them in files located in two directories named `host_vars` and `group_vars`:
 
-  - To define variables for a group "servers", a YAML file named `group_vars/servers` with the variable definitions is created.
+  - To define variables for a group "servers", a YAML file named `group_vars/servers.yml` with the variable definitions is created.
 
-  - To define variables specifically for a host `node1`, the file `host_vars/node1` with the variable definitions is created.
+  - To define variables specifically for a host `node1`, the file `host_vars/node1.yml` with the variable definitions is created.
 
 > **Tip**
 >
@@ -42,14 +50,14 @@ On the ansible control host, as the `student<X>` user, create the directories to
 
 Now create two files containing variable definitions. We’ll define a variable named `stage` which will point to different environments, `dev` or `prod`:
 
-  - Create the file `~/ansible-files/group_vars/web` with this content:
+  - Create the file `~/ansible-files/group_vars/web.yml` with this content:
 
 ```yaml
 ---
 stage: dev
 ```
 
-  - Create the file `~/ansible-files/host_vars/node2` with this content:
+  - Create the file `~/ansible-files/host_vars/node2.yml` with this content:
 
 ```yaml
 ---
@@ -64,7 +72,7 @@ What is this about?
 
 ## Step 4.2 - Create index.html Files
 
-Now create two files in `~/ansible-files/`:
+Now create two files in `~/ansible-files/files/`:
 
 One called `prod_index.html` with the following content:
 
@@ -101,7 +109,7 @@ Create a new Playbook called `deploy_index_html.yml` in the `~/ansible-files/` d
   tasks:
   - name: copy index.html
     copy:
-      src: ~/ansible-files/{{ stage }}_index.html
+      src: "{{ stage }}_index.html"
       dest: /var/www/html/index.html
 ```
 <!-- {% endraw %} -->

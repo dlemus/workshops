@@ -1,6 +1,9 @@
 # Exercise 1.6 - Templates
 
-**Read this in other languages**: ![uk](../../../images/uk.png) [English](README.md),  ![japan](../../../images/japan.png) [日本語](README.ja.md).
+**Read this in other languages**: ![uk](../../../images/uk.png) [English](README.md),  ![japan](../../../images/japan.png)[日本語](README.ja.md), ![brazil](../../../images/brazil.png) [Portugues do Brasil](README.pt-br.md).
+
+* [Step 6.1 - Using Templates in Playbooks](#step-61---using-templates-in-playbooks)
+* [Step 6.2 - Challenge Lab](#step-62---challenge-lab)
 
 Ansible uses Jinja2 templating to modify files before they are distributed to managed hosts. Jinja2 is one of the most used template engines for Python (<http://jinja.pocoo.org/>).
 
@@ -10,7 +13,13 @@ When a template for a file has been created, it can be deployed to the managed h
 
 As an example of using templates you will change the motd file to contain host-specific data.
 
-First in the `~/ansible-files/` directory create the template file `motd-facts.j2`:
+First create the directory `templates` to hold template resources in `~/ansible-files/`:
+
+```bash
+[student<X>@ansible ansible-files]$ mkdir templates
+```
+
+Then in the `~/ansible-files/templates/` directory create the template file `motd-facts.j2`:
 
 <!-- {% raw %} -->
 ```html+jinja

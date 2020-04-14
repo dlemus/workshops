@@ -1,6 +1,11 @@
 # Exercise 1.1 - Check the Prerequisites
 
-**Read this in other languages**: ![uk](../../../images/uk.png) [English](README.md),  ![japan](../../../images/japan.png)[日本語](README.ja.md).
+**Read this in other languages**: ![uk](../../../images/uk.png) [English](README.md),  ![japan](../../../images/japan.png)[日本語](README.ja.md), ![brazil](../../../images/brazil.png) [Portugues do Brasil](README.pt-br.md).
+
+* [Your Lab Environment](#your-lab-environment)
+* [Step 1.1 - Access the Environment](#step-11---access-the-environment)
+* [Step 1.2 - Working the Labs](#step-12---working-the-labs)
+* [Step 1.3 - Challenge Labs](#step-13---challenge-labs)
 
 ## Your Lab Environment
 
@@ -11,7 +16,7 @@ In this lab you work in a pre-configured lab environment. You will have access t
 | Ansible Control Host | ansible        |
 | Managed Host 1       | node1          |
 | Managed Host 2       | node2          |
-| Managed Host 2       | node3          |
+| Managed Host 3       | node3          |
 
 ## Step 1.1 - Access the Environment
 

@@ -1,6 +1,14 @@
 # Exercise 1.2 - Running Ad-hoc commands
 
-**Read this in other languages**: ![uk](../../../images/uk.png) [English](README.md),  ![japan](../../../images/japan.png) [日本語](README.ja.md).
+**Read this in other languages**: ![uk](../../../images/uk.png) [English](README.md),  ![japan](../../../images/japan.png)[日本語](README.ja.md), ![brazil](../../../images/brazil.png) [Portugues do Brasil](README.pt-br.md).
+
+* [Step 2.1 - Work with your Inventory](#step-21---work-with-your-inventory)
+* [Step 2.2 - The Ansible Configuration Files](#step-22---the-ansible-configuration-files)
+* [Step 2.3 - Ping a host](#step-23---ping-a-host)
+* [Step 2.4 - Listing Modules and Getting Help](#step-24---listing-modules-and-getting-help)
+* [Step 2.5 - Use the command module:](#step-25---use-the-command-module)
+* [Step 2.6 - The copy module and permissions](#step-26---the-copy-module-and-permissions)
+* [Challenge Lab: Modules](#challenge-lab-modules)
 
 For our first exercise, we are going to run some ad-hoc commands to help you get a feel for how Ansible works.  Ansible Ad-Hoc commands enable you to perform tasks on remote nodes without having to write a playbook.  They are very useful when you simply need to do one or two things quickly and often, to many remote nodes.
 
@@ -266,7 +274,7 @@ Run the `ansible node1 -m copy …​` command from above again. Note:
 
       - Look up the help examples for the module to learn how to install a package in the latest version.
 
-  - Run an Ansible ad hoc command to install the package "screen" in the latest version on `node1`.
+  - Run an Ansible ad hoc command to install the package "squid" in the latest version on `node1`.
 
 > **Tip**
 >
@@ -279,7 +287,7 @@ Run the `ansible node1 -m copy …​` command from above again. Note:
 ```bash
 [student<X>@ansible ~]$ ansible-doc -l | grep -i yum
 [student<X>@ansible ~]$ ansible-doc yum
-[student<X>@ansible ~]$ ansible node1 -m yum -a 'name=screen state=latest' -b
+[student<X>@ansible ~]$ ansible node1 -m yum -a 'name=squid state=latest' -b
 ```
 
 ----
