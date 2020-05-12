@@ -1,6 +1,7 @@
 # Exercício 1.1 - Verifique os pré-requisitos
 
-**Leia em outras linguagens**: ![uk](../../../images/uk.png) [English](README.md),  ![japan](../../../images/japan.png)[日本語](README.ja.md), ![brazil](../../../images/brazil.png) [Portugues do Brasil](README.pt-br.md).
+**Leia em outras linguagens**:
+<br>![uk](../../../images/uk.png) [English](README.md),  ![japan](../../../images/japan.png)[日本語](README.ja.md), ![brazil](../../../images/brazil.png) [Portugues do Brasil](README.pt-br.md), ![france](../../../images/fr.png)[Française](README.fr.md).
 
 * [Seu ambiente de Laboratório](#seu-ambiente-de-laboratório)
 * [Passo 1.1 - Acesse o ambiente](#passo-11---acesse-o-ambiente)
@@ -30,7 +31,7 @@ Faça Login com seu Ansible Control Host via SSH:
 
 > **Dica**
 >
-> A senha é **ansible**
+> A senha é **instructor provides this**
 
 Torne-se Root:
 
