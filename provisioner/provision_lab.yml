@@ -22,6 +22,18 @@
   roles:
     - manage_ec2_instances
 
+- name: Configure nginx on attendance host
+  hosts: attendance
+  become: true
+  gather_facts: true
+  roles:
+    - role: workshop_attendance_nginx
+      when:
+        - attendance|bool
+    - role: workshop_attendance
+      when:
+        - attendance|bool
+
 - name: wait for all nodes to have SSH reachability
   hosts: "managed_nodes:control_nodes"
   become: true
@@ -97,7 +109,7 @@
         - populatetower
 
 - name: IBM community grid
-  hosts: "control_nodes:managed_nodes"
+  hosts: "managed_nodes"
   become: true
   gather_facts: false
 
@@ -105,6 +117,9 @@
     - name: install boinc-client and register
       include_role:
         name: community_grid
+      when:
+        - ibm_community_grid is defined
+        - ibm_community_grid
 
 
 - name: include workshop_type unique setup roles
@@ -137,7 +152,7 @@
 - name: print out information for instructor
   hosts: localhost
   connection: local
-  become: false
+  become:
   gather_facts: false
   tasks:
     - name: set facts for output
@@ -148,7 +163,9 @@
           - Workshop name is {{ec2_name_prefix}}
           - Instructor inventory is located at  {{playbook_dir}}/{{ec2_name_prefix}}/instructor_inventory.txt
           - Private key is located at {{playbook_dir}}/{{ec2_name_prefix}}/{{ec2_name_prefix}}-private.pem
-          {{website_information}}
+          - {{website_information}}
+          - {{hostvars['attendance-host'].login_website_information}}
+
           FAILURES
           *******************
           {{dns_information}}

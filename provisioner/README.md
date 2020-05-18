@@ -61,7 +61,8 @@ dns_type: aws
 admin_password: your_password123
 
 # creates AWS S3 website for ec2_name_prefix.workshop_dns_zone
-create_login_page: true
+# this is defaulted to on as of May 13th, 2020
+create_login_page: false
 
 # Sets the Route53 DNS zone to use for the S3 website
 workshop_dns_zone: rhdemo.io
@@ -69,8 +70,8 @@ workshop_dns_zone: rhdemo.io
 # automatically installs Tower to control node
 towerinstall: true
 
-# automatically licenses Tower if license is provided
-autolicense: true
+# IBM Community Grid - defaults to true if you don't tell the provisioner
+ibm_community_grid: false
 ```
 
 If you want to license it you must copy a license called tower_license.json into this directory.  If you do not have a license already please request one using the [Workshop License Link](https://www.ansible.com/workshop-license).
@@ -100,7 +101,7 @@ For more extra_vars examples, look at the following:
   - Workbench information is stored in two places after you provision:
     1. in a local directory named after the workshop (e.g. testworkshop/instructor_inventory)
 
-    2. if `create_login_page: true` is enabled in your `extra_vars file,` there will be a website `ec2_name_prefix.workshop_dns_zone` (e.g. `testworkshop.rhdemo.io`)
+    2. By default there will be a website `ec2_name_prefix.workshop_dns_zone` (e.g. `testworkshop.rhdemo.io`)
 
        - **NOTE:** It is possible to change the DNS domain (right now this is only supported via a AWS Route 53 Hosted Zone) using the parameter `workshop_dns_zone` in your `extra_vars.yml` file.
 
