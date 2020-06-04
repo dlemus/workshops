@@ -13,7 +13,6 @@
       include_role:
         name: aws_check_setup
 
-
 - name: Create lab instances in AWS
   hosts: localhost
   connection: local
@@ -21,6 +20,13 @@
   gather_facts: false
   roles:
     - manage_ec2_instances
+
+- name: wait for all nodes to have SSH reachability
+  hosts: "managed_nodes:control_nodes:attendance"
+  become: true
+  gather_facts: false
+  roles:
+    - connectivity_test
 
 - name: Configure nginx on attendance host
   hosts: attendance
@@ -33,13 +39,6 @@
     - role: workshop_attendance
       when:
         - attendance|bool
-
-- name: wait for all nodes to have SSH reachability
-  hosts: "managed_nodes:control_nodes"
-  become: true
-  gather_facts: false
-  roles:
-    - connectivity_test
 
 - name: wait for all security nodes to have SSH reachability
   hosts: "security_connection_check"
@@ -111,7 +110,7 @@
 - name: IBM community grid
   hosts: "managed_nodes"
   become: true
-  gather_facts: false
+  gather_facts: true
 
   tasks:
     - name: install boinc-client and register
@@ -164,7 +163,7 @@
           - Instructor inventory is located at  {{playbook_dir}}/{{ec2_name_prefix}}/instructor_inventory.txt
           - Private key is located at {{playbook_dir}}/{{ec2_name_prefix}}/{{ec2_name_prefix}}-private.pem
           - {{website_information}}
-          - {{hostvars['attendance-host'].login_website_information}}
+          - {{hostvars['attendance-host'].login_website_information | default("attendance feature is off") }}
 
           FAILURES
           *******************
